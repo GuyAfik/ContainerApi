@@ -1,4 +1,5 @@
-from pymongo import MongoClient
+
+from pymongo import MongoClient, DESCENDING
 from .exceptions import InsertDatabaseError, ResourceNotFound
 
 # for local host
@@ -41,23 +42,32 @@ class DatabaseOperations(object):
         except Exception as error:
             raise InsertDatabaseError(message=str(error))
 
-    def get_document(self, _id, type='container'):
+    def get_last_document(self):
         """
-        Gets a document from the DB.
-
-        Args:
-            _id (str): ID of the resource.
-            type (str): type of the resource. e.g.: 'container'
+        Gets the last document that was inserted to the DB.
 
         Returns:
-            dict: a document that matches the resource ID.
+             dict: the last inserted document
 
         Raises:
-            ResourceNotFound: in case the resource was not found in the DB.
+            ResourceNotFound: in case the database is empty.
         """
-        found_document = self._collection_type.find_one(filter={"_id": _id})
-        if found_document:
-            return found_document
-        else:
-            raise ResourceNotFound(message=f"{type} with ID {_id} does not exist")
+        # Using _id here to sort because the ObjectId values are always going to "increase" as they are added
+        last_document = self._collection_type.find_one(sort=[('_id', DESCENDING)])
+        if last_document:
+            return last_document
+        raise ResourceNotFound("Currently there isn't any record/document in the DB!")
 
+    def get_all_documents(self):
+        """
+        Gets all the documents from the DB.
+
+        Returns:
+            list[dict]: a list of records documents, empty list incase there aren't any documents in the DB.
+        """
+        results = []
+        all_documents_iter = self._collection_type.find({})
+
+        for document in all_documents_iter:
+            results.append(document)
+        return results

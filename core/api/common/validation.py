@@ -7,7 +7,7 @@ from .exceptions import InvalidJsonBodyRequest
 class BaseContainerSchema(Schema):
     name = fields.String(required=True)
     image = fields.String(required=True)
-    port = fields.Dict(default={})
+    port = fields.Dict(keys=fields.Str(), values=fields.Str())
     detach = fields.Boolean(default=False)
 
 

@@ -5,7 +5,7 @@ __pycache__/
 .idea/
 # C extensions
 *.so
-
+default_key_pair_name.pem
 # Distribution / packaging
 .Python
 build/

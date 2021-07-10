@@ -3,7 +3,6 @@ class ApiException(Exception):
     """
     A base class for all api Exceptions.
     """
-
     status_code = None
 
     def __init__(self, message=None):
@@ -66,8 +65,14 @@ class DatabaseErrors(ApiException):
 
 
 class InsertDatabaseError(DatabaseErrors):
+    """
+    Raises when there is a database insertion error
+    """
     pass
 
 
 class ResourceNotFound(ApiException):
+    """
+    Raises when there is a resource that was not found in the DB.
+    """
     status_code = 404

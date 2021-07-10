@@ -31,17 +31,21 @@ def run_container(**container_data):
     if not container_data.get("detach"):  # this means that we got back the container logs instead of the object.
         container = docker_client.containers.get(container_id=container_data.get("name"))
 
-    persistence.insert_container_attrs(container_attrs=container.attrs)
+    # persistence.insert_container_attrs(container_attrs=container.attrs)
 
     return container.attrs
 
 
 @response_decorator(code=200)
-def get_latest_running_container():
+def get_latest_running_container(limit=1):
     """
     Gets the latest running container.
     """
-    return persistence.get_last_container()
+    container = docker_client.containers.list(limit=limit)
+    if container:
+        return container[0].attrs
+    return {}
+    # return persistence.get_last_container()
 
 
 @response_decorator(code=200)
@@ -52,5 +56,6 @@ def get_all_containers():
     Returns:
          list[dict]: all containers.
     """
-    return persistence.get_all_containers()
+    return [container.attrs for container in docker_client.containers.list(all=True)]
+    # return persistence.get_all_containers()
 

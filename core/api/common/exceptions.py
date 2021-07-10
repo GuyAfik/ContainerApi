@@ -33,6 +33,9 @@ class ApiException(Exception):
     def to_dict(self):
         """
         represents the exception as a dictionary form.
+
+        Returns:
+            dict: a customized exception error details.
         """
         return {
             'error': {

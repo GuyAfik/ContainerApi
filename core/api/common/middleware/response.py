@@ -43,6 +43,6 @@ def make_server_response(response, http_status_code):
         http_status_code (int): the http status code that the server should return.
 
     Returns:
-        Response: a flask response.
+        Response: a flask response object.
     """
     return make_response(jsonify(response), http_status_code)

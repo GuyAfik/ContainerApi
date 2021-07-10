@@ -42,6 +42,7 @@ def get_latest_running_container(limit=1):
     Gets the latest running container.
     """
     container = docker_client.containers.list(limit=limit)
+    print(container)
     if container:
         return container[0].attrs
     return {}

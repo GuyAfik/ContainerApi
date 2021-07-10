@@ -1,4 +1,5 @@
 from flask import make_response, jsonify
+from docker.errors import DockerException
 from ..exceptions import ApiException
 
 
@@ -22,6 +23,11 @@ def response_decorator(code):
             except ApiException as error:
                 response = error.to_dict()
                 http_status_code = error.status_code
+            except DockerException as error:
+                api_exception = ApiException(message=error.explanation)
+                api_exception.status_code = error.response.status_code
+                http_status_code = api_exception.status_code
+                response = api_exception.to_dict()
             return make_server_response(response=response, http_status_code=http_status_code)
 
         return wrapper

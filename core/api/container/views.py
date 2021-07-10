@@ -32,7 +32,7 @@ def get_last_container():
 @container_blueprint.route('/Containers', methods=['GET'])
 def get_all_containers():
     """
-    Get all of the container records.
+    Get all of the container records endpoint.
 
     Returns:
          list[dict]: all container records.

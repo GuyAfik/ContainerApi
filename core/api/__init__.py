@@ -17,6 +17,5 @@ def create_app():
     app.register_blueprint(blueprint=container_bp)
 
     before_request_middleware(app=app)
-    for rule in app.url_map.iter_rules():
-        print(rule.endpoint)
+
     return app

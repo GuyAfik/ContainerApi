@@ -7,7 +7,7 @@ from . import logic
 from . import container_blueprint
 
 
-@container_blueprint.route('/Container', methods=['POST'])
+@container_blueprint.route('/container', methods=['POST'])
 def run_container():
     """
     Run container endpoint.
@@ -18,7 +18,7 @@ def run_container():
     return logic.run_container(**request.json)
 
 
-@container_blueprint.route('/Container', methods=['GET'])
+@container_blueprint.route('/container', methods=['GET'])
 def get_last_container():
     """
     Get last container record endpoint.
@@ -29,7 +29,7 @@ def get_last_container():
     return logic.get_latest_running_container()
 
 
-@container_blueprint.route('/Containers', methods=['GET'])
+@container_blueprint.route('/containers', methods=['GET'])
 def get_all_containers():
     """
     Get all of the container records endpoint.

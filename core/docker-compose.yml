@@ -1,7 +1,11 @@
 version: "3.9"
-services:
-  nginx1:
-    image: nginx
-    ports:
-      - "50001:50001"
+#services:
+#  nginx1:
+#    image: nginx
+#    ports:
+#      - "50001:50001"
+#  hello:
+#    image: hello-world
+#  apache:
+#    image: httpd
 

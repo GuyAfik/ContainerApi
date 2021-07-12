@@ -19,7 +19,7 @@ def run_application():
     app.run(debug=debug, host=host, port=port, use_reloader=False)
 
 
-def schedule_operation(id, func, trigger='interval', seconds=15):
+def schedule_operation(id, func, trigger='interval', seconds=30):
     """
     Schedule an operation to be performed every 'X' seconds.
 

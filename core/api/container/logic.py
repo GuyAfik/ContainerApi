@@ -314,7 +314,7 @@ def get_all_containers():
 def sample_services_config(file_name='docker-compose.yml'):
     """
     Samples services configurations, This function will be executed as long as the server is active.
-    Updates the services configurations according to that file configuration using docker-compose.
+    Updates the services configurations according to the file configuration using docker-compose.
 
     Important note:
         there is no correlation between what the POST api produces to what the configuration file holds.
@@ -323,6 +323,9 @@ def sample_services_config(file_name='docker-compose.yml'):
 
         GET on the other hand will show the last created container/or all containers that were created even with
         docker compose.
+
+        The print statements are simply just to understand what's going on with the application, for example it will
+        alarm in case of a misconfiguration of the docker-compose yaml file.
 
     Args:
         file_name (str): docker compose file name.

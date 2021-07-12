@@ -35,6 +35,6 @@ class InvalidContentType(ApiException):
 
 class InvalidJsonBodyRequest(ApiException):
     """
-    Raises when an invalid body request is provided.
+    Raised when an invalid body request is provided.
     """
     status_code = 400

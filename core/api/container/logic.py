@@ -1,13 +1,11 @@
 """
 Here resides the business logic layer.
 """
-import docker
+import subprocess
 
-from . import persistence
 from core.api.common.middleware.response import response_decorator
 from core.api.common.validation import BaseContainerSchema, validate_request_body
-
-docker_client = docker.from_env()
+from core import docker_client
 
 
 @response_decorator(code=200)
@@ -49,12 +47,13 @@ def run_container(**container_data):
 
         nginx container:
 
-        curl -d '{"name": "bla1", "image": "nginx", "ports": {"22222/tcp": 22222}, "detach": true}' -H
+        curl -d '{"name": "my_nginx", "image": "nginx", "ports": {"22222/tcp": 22222}, "detach": true}' -H
         "Content-Type: application/json" -X POST http://<server_ip>:<server_port>/Container
 
     Notes:
-        name & image json fields when trying to run a container are required! even though name can be atomically created
-        by the docker. In my opinion its important to have a container meaningful name in order to know what it does.
+        name & image json fields when trying to run a container are required! even though name can be automatically
+        created by the docker.
+        In my opinion its important to have a container meaningful name in order to know what it does.
 
     Returns:
         dict: container information.
@@ -63,7 +62,6 @@ def run_container(**container_data):
 
     if not container_data.get("detach"):  # this means that we got back the container logs instead of the object.
         container = docker_client.containers.get(container_id=container_data.get("name"))
-    # persistence.insert_container_attrs(container_attrs=container.attrs)
 
     return container.attrs
 
@@ -77,7 +75,7 @@ def get_latest_running_container(limit=1):
         limit (int): the amount of last containers to get.
 
     Curl Example:
-    
+
         curl http://<server_ip>:<server_port>/Container would produce the last container information:
 
         {
@@ -300,7 +298,6 @@ def get_latest_running_container(limit=1):
     if container:
         return container[0].attrs
     return {}
-    # return persistence.get_last_container()
 
 
 @response_decorator(code=200)
@@ -312,5 +309,39 @@ def get_all_containers():
          list[dict]: all containers.
     """
     return [container.attrs for container in docker_client.containers.list(all=True)]
-    # return persistence.get_all_containers()
 
+
+def sample_services_config(file_name='docker-compose.yml'):
+    """
+    Samples services configurations, This function will be executed as long as the server is active.
+    Updates the services configurations according to that file configuration using docker-compose
+
+    Important note:
+        there is no correlation between what the POST api produces to what the configuration file holds.
+        so if we try to create container through the api, we will not see this in docker-compose config file or the
+        other way around.
+
+        GET on the other hand will show the last created container/or all containers that were created even with
+        docker compose.
+
+    Args:
+        file_name (str): docker compose file name.
+    """
+    docker_compose_cmd = ['docker-compose', 'up', '-d', '--remove-orphans']
+
+    try:
+        with open(file=file_name) as file:
+            file_content = file.read()
+            process = subprocess.run(
+                docker_compose_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE
+            )
+            if not process.returncode:  # code = 0 ---> means operation is successful, otherwise operation failed.
+                print(f"docker-compose was updated successfully using this file:\n{file_content}")
+            else:
+                print(
+                    f"error occurred while trying to update containers configurations, "
+                    f"error:\n{process.stderr.decode('utf-8')}"
+                )
+                print(f"Please make sure your file is configured correctly\n{file_content}")
+    except FileNotFoundError:
+        print(f"file named {file_name} was not found!")

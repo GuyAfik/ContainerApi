@@ -21,7 +21,7 @@ def run_container():
 @container_blueprint.route('/Container', methods=['GET'])
 def get_last_container():
     """
-    Get last container endpoint.
+    Get last container record endpoint.
 
     Returns:
         dict: the last running container

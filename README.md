@@ -14,4 +14,5 @@ Installation guide:
 6) the file that should be run is core/run_app.py - if you try to use 'python run_app.py' - you will get module not found error because of some relative import issue.
 so the best way is to run it through the pycharm with a correct interperter that points out to the virtual enviroment interpreter that you created.
 7) the functions are pretty documented so if there is something you don't understand let me know
-8) feel free to ask me any question.
+8) there is a configuration file that is based on docker-compose. its important to keep it in its path and not to change it. feel free to change the file it self but not the its path. 
+9) feel free to ask me any question.

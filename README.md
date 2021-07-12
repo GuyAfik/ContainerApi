@@ -17,30 +17,3 @@ so the best way is to run it through the pycharm with a correct interperter that
 7) the functions are pretty documented so if there is something you don't understand let me know
 8) there is a configuration file that is based on docker-compose. its important to keep it in its path and not to change it. feel free to change the file it self but not the its path. 
 9) feel free to ask me any question.
-
-
-Note:
-
-if you will change the docker-compose file, the server should recognize it and run/remove/update containers with whatever configurations docker-compose allow you.
-so if for example i have this docker compose file:
-
-version: "3.9"
-services:
-  nginx1:
-    image: nginx
-    ports:
-      - "50001:50001"
-  nginx2:
-    image: nginx
-    ports:
-      - "50001:50001"
-      
-
-and i decide to remove one of the nginx services then we should expect seeing only one container in 'docker ps' output instead of two.
-
-version: "3.9"
-services:
-  nginx1:
-    image: nginx
-    ports:
-      - "50001:50001"

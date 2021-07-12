@@ -43,12 +43,12 @@ def run_container(**container_data):
         Hello world container:
 
         curl -d '{"name": "my_nginx", "image": "hello-world"}' -H "Content-Type: application/json" -X POST
-        http://<server_ip>:<server_port>/Container
+        http://<server_ip>:<server_port>/container
 
         nginx container:
 
         curl -d '{"name": "my_nginx", "image": "nginx", "ports": {"22222/tcp": 22222}, "detach": true}' -H
-        "Content-Type: application/json" -X POST http://<server_ip>:<server_port>/Container
+        "Content-Type: application/json" -X POST http://<server_ip>:<server_port>/container
 
     Notes:
         name & image json fields when trying to run a container are required! even though name can be automatically
@@ -76,7 +76,7 @@ def get_latest_running_container(limit=1):
 
     Curl Example:
 
-        curl http://<server_ip>:<server_port>/Container would produce the last container information:
+        curl http://<server_ip>:<server_port>/container would produce the last container information:
 
         {
           "AppArmorProfile": "",
@@ -314,7 +314,7 @@ def get_all_containers():
 def sample_services_config(file_name='docker-compose.yml'):
     """
     Samples services configurations, This function will be executed as long as the server is active.
-    Updates the services configurations according to that file configuration using docker-compose
+    Updates the services configurations according to that file configuration using docker-compose.
 
     Important note:
         there is no correlation between what the POST api produces to what the configuration file holds.

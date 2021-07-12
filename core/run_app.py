@@ -13,13 +13,13 @@ def run_application():
     Runs the flask application with some custom configurations.
     """
     debug = os.environ.get("APP_DEBUG", True)  # False
-    host = os.environ.get("APP_HOST", '0.0.0.0')  # 0.0.0.0
+    host = os.environ.get("APP_HOST", "0.0.0.0")  # "localhost"
     port = int(os.environ.get('APP_PORT', 5000))
 
     app.run(debug=debug, host=host, port=port, use_reloader=False)
 
 
-def schedule_operations(id, func, trigger='interval', seconds=15):
+def schedule_operation(id, func, trigger='interval', seconds=15):
     """
     Schedule an operation to be performed every 'X' seconds.
 
@@ -34,5 +34,5 @@ def schedule_operations(id, func, trigger='interval', seconds=15):
 
 
 if __name__ == '__main__':
-    schedule_operations(id='Sample Services Config', func=sample_services_config)
+    schedule_operation(id='Sample Services Config', func=sample_services_config)
     run_application()

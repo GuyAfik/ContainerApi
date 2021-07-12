@@ -29,7 +29,6 @@ def response_decorator(code):
                 http_status_code = api_exception.status_code
                 response = api_exception.to_dict()
             return make_server_response(response=response, http_status_code=http_status_code)
-
         return wrapper
     return decorator
 

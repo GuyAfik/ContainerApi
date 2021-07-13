@@ -42,7 +42,7 @@ def run_container(**container_data):
 
         Hello world container:
 
-        curl -d '{"name": "my_nginx", "image": "hello-world"}' -H "Content-Type: application/json" -X POST
+        curl -d '{"name": "hello world!", "image": "hello-world"}' -H "Content-Type: application/json" -X POST
         http://<server_ip>:<server_port>/container
 
         nginx container:
